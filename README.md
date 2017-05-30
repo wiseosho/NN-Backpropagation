@@ -1,21 +1,12 @@
-# Code samples for "Neural Networks and Deep Learning"
+# Backpropagation of feedforward network 
 
-This repository contains code samples for my book on ["Neural Networks
-and Deep Learning"](http://neuralnetworksanddeeplearning.com).
+This is the python practice code of Backpropagation of Feedforward Neural Network.
+Basic code is based on the [sample code](https://github.com/mnielsen/neural-networks-and-deep-learning) for ["Neural Networks and Deep Learning"]((http://neuralnetworksanddeeplearning.com), written by [Michael Nielsen](http://michaelnielsen.org/).
 
-The code is written for Python 2.6 or 2.7. Michal Daniel Dobrzanski
-has a repository for Python 3
-[here](https://github.com/MichalDanielDobrzanski/DeepLearningPython35). I
-will not be updating the current repository for Python 3
-compatibility.
+MNIST Handwriten digits are used as a practice data.
+This code is tested on Anaconda 4.3(64bit, Python 3.6, Ipython 5.1)
 
-The program `src/network3.py` uses version 0.6 or 0.7 of the Theano
-library.  It needs modification for compatibility with later versions
-of the library.  I will not be making such modifications.
-
-As the code is written to accompany the book, I don't intend to add
-new features. However, bug reports are welcome, and you should feel
-free to fork and modify the code.
+Thank you Michael Nielsen for nice teaching materials and codes with good starting point.
 
 ## License
 
@@ -40,4 +31,5 @@ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
 NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
 LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
