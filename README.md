@@ -1,7 +1,7 @@
 # Backpropagation of feedforward network 
 
 This is the python practice code of Backpropagation of Feedforward Neural Network.
-Basic code is based on the [sample code](https://github.com/mnielsen/neural-networks-and-deep-learning) for ["Neural Networks and Deep Learning"]((http://neuralnetworksanddeeplearning.com), written by [Michael Nielsen](http://michaelnielsen.org/).
+Basic code is based on the [sample code](https://github.com/mnielsen/neural-networks-and-deep-learning) for ["Neural Networks and Deep Learning"](http://neuralnetworksanddeeplearning.com), written by [Michael Nielsen](http://michaelnielsen.org/).
 
 MNIST Handwriten digits are used as a practice data.
 This code is tested on Anaconda 4.3(64bit, Python 3.6, Ipython 5.1)
