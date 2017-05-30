@@ -155,13 +155,25 @@ class Network(object):
         N_z = len(out_z)
         dz = Cost_der(in_a[-1], outp)* P_sigmoid(out_z[-1])
         #
+        dim_a=in_a[-2].shape
+        dim_z=dz.shape
+        dw[-1] = np.sum( np.vstack([in_a[-2],np.ones((1,N_batch))]).T.reshape(N_batch,1 , dim_a[0]+1)*dz.T.reshape(N_batch,dim_z[0] ,1)
+                , axis=0)
+        '''
         for i in range(N_batch):
             dw[-1] += np.vstack( [in_a[-2][:,[i]],np.ones((1,1))]).transpose()*dz[:,[i]]
-
+        '''
         for i in range(N_z-2, -1, -1):
             dz = np.dot(np.transpose(self.weights[i+1][:,:-1]),dz) * P_sigmoid(out_z[i])
-            for j in range(N_batch):
+            dim_a=in_a[i].shape
+            dim_z=dz.shape
+
+            dw[i] = np.sum( np.vstack([in_a[i],np.ones((1,N_batch))]).T.reshape(N_batch,1 , dim_a[0]+1)*dz.T.reshape(N_batch,dim_z[0] ,1)
+                , axis=0)
+        '''
+        for j in range(N_batch):
                 dw[i] += np.vstack( [in_a[i][:,[j]],np.ones((1,1))]).transpose()*dz[:,[j]]    
+        '''
         return (dw)
         
  
