@@ -88,14 +88,16 @@ class Network(object):
         # This 
         
         #This will calculate samples of whole batch at once as a matrix
-        #del_w, del_b = self.backpropagation(batch)
+        accum_delta_w = self.backpropagation_batch(batch)
+        '''
         for sample in batch: # Suppose the sample consists of [input, label], where shape(input) = n,1/
             del_w = self.backpropagation(sample) # accum_delta_w, accum_delta_b #
         
             #add calculated sample into (accumulate)
             accum_delta_w = [acc_del_w + del_w for acc_del_w, del_w in zip(accum_delta_w,del_w )]
             #accum_delta_b = [acc_del_b + del_b for acc_del_b, del_b in zip(accum_delta_b, del_b)]
-
+        '''
+        
         # weight correction using accumulated delta with learning rate(lr)
         self.weights = [w - (self.lr/N)*del_w for w, del_w in zip(self.weights, accum_delta_w)]
         #self.biases = [b - (self.lr/N)*del_b for b, del_b in zip(self.biases, accum_delta_b)]
@@ -132,9 +134,37 @@ class Network(object):
         #3. 
         return (dw)#, db)
     
-    def backpropagation_batch(self, batch):    
-        pass
+    def backpropagation_batch(self, batch):
+        #Repackage input nodes of each samples into 784 ny N matrix
+        inp = batch[0][0]
+        outp = batch[0][1]
+        N_batch = len(batch)
+        for i in range(1, N_batch):
+            inp = np.hstack((inp, batch[i][0]))
+            outp = np.hstack((outp, batch[i][1]))
+        in_a = [inp]
+        out_z = []
+        ina = copy.deepcopy(in_a[0])
+        for w in self.weights:
+            z = np.dot(w, np.vstack((ina, np.ones((1,N_batch)) )))
+            ina = sigmoid(z)
+            out_z.append(z)
+            in_a.append(ina)
+        dw = [np.zeros_like(w) for w in self.weights]
+        
+        N_z = len(out_z)
+        dz = Cost_der(in_a[-1], outp)* P_sigmoid(out_z[-1])
+        #
+        for i in range(N_batch):
+            dw[-1] += np.vstack( [in_a[-2][:,[i]],np.ones((1,1))]).transpose()*dz[:,[i]]
 
+        for i in range(N_z-2, -1, -1):
+            dz = np.dot(np.transpose(self.weights[i+1][:,:-1]),dz) * P_sigmoid(out_z[i])
+            for j in range(N_batch):
+                dw[i] += np.vstack( [in_a[i][:,[j]],np.ones((1,1))]).transpose()*dz[:,[j]]    
+        return (dw)
+        
+ 
     def feedforward(self, X):
         a=[]
         
@@ -159,8 +189,8 @@ if __name__ == "__main__":
     net_dim = [784, 10, 10]
     epochs = 10
     nn = Network(net_dim)
-    start=timeit.default_timer()
+    start = timeit.default_timer()
     weights = nn.stochastic_gradient_descent(training, 1, test=test)
     weights = nn.stochastic_gradient_descent(training, epochs, test=test, Ws=weights)
     end = timeit.default_timer()
-    print (end-start)
+    print (start - end)
